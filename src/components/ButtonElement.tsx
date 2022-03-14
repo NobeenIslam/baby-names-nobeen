@@ -5,3 +5,5 @@ function ButtonElement(props: babyProps):JSX.Element{
         <button key = {props.id} className={props.sex}>{props.name}</button>
     )
 }
+
+export default ButtonElement
