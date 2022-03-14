@@ -1,5 +1,5 @@
 
-[
+let babyNamesData = [
     {
       "id": 0,
       "name": "Zahra",
@@ -858,3 +858,4 @@
   ]
 
 
+export default babyNamesData
