@@ -9,6 +9,7 @@ function SearchBar(): JSX.Element {
         onChange={(event) => {
           setTypedMessage(event.target.value);
         }}
+        placeholder="Search name here.."
       />
   );
 }
