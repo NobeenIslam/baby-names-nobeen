@@ -9,7 +9,9 @@ import babyProps from "./babyProps";
 function MainContent(): JSX.Element {
   const alphabeticalBabyNames: babyProps[] =
     babyNamesData.sort(alphaBeticalSort);
+    
   const [nameSearch, setTypedMessage] = useState("");
+
   const filteredList: babyProps[] = filterNames(
     alphabeticalBabyNames,
     nameSearch
