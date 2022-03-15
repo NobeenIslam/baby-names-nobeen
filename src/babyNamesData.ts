@@ -1,4 +1,5 @@
-const babyNamesData = [
+import babyProps from "./components/babyProps";
+const babyNamesData: babyProps[] = [
   {
     id: 0,
     name: "Zahra",
