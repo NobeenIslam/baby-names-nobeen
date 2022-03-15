@@ -1,21 +1,17 @@
-import { useState } from "react";
-import babyProps from "./babyProps"
-
-interface searchBarProps{
-    sortedData: babyProps[]
+interface searchBarProps {
+  input: string;
+  inputQueue(string: string): void;
 }
 
 function SearchBar(props: searchBarProps): JSX.Element {
-  const [nameSearch, setTypedMessage] = useState("");
-
   return (
-      <input
-        value={nameSearch}
-        onChange={(event) => {
-          setTypedMessage(event.target.value);
-        }}
-        placeholder="Search name here.."
-      />
+    <input
+      value={props.input}
+      onChange={(event) => {
+        props.inputQueue(event.target.value);
+      }}
+      placeholder="Search name here.."
+    />
   );
 }
 
