@@ -1,4 +1,4 @@
-import babyProps from "./babyProps";
+import babyProps from "../components/babyProps"
 
 function alphaBeticalSort (a:babyProps, b:babyProps):number {
     const textA = a.name.toUpperCase();
