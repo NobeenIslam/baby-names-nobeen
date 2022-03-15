@@ -1,6 +1,11 @@
 import { useState } from "react";
+import babyProps from "./babyProps"
 
-function SearchBar(): JSX.Element {
+interface searchBarProps{
+    sortedData: babyProps[]
+}
+
+function SearchBar(props: searchBarProps): JSX.Element {
   const [nameSearch, setTypedMessage] = useState("");
 
   return (
