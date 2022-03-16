@@ -1,27 +1,41 @@
 import { useState } from "react";
-import BabyNameButtons from "./BabyNameButtons";
-import SearchBar from "./SearchBar";
 import babyNamesData from "../babyNamesData";
 import alphaBeticalSort from "../utils/alphabeticalSort";
 import filterNames from "../utils/filterNames";
 import babyProps from "./babyProps";
 
 function MainContent(): JSX.Element {
+  const [nameSearch, setSearch] = useState("");
+
   const alphabeticalBabyNames: babyProps[] =
     babyNamesData.sort(alphaBeticalSort);
-    
-  const [nameSearch, setTypedMessage] = useState("");
 
-  const filteredList: babyProps[] = filterNames(
-    alphabeticalBabyNames,
-    nameSearch
+    const filteredBabyNames: babyProps[] = filterNames(
+      alphabeticalBabyNames,
+      nameSearch
+    );
+  
+  const babyNameButtons = filteredBabyNames.map(
+    (baby: babyProps): JSX.Element => (
+      <button key = {baby.id} className={"button "+ baby.sex}>{baby.name}</button>
+    )
   );
+    
+  
+
+
 
   return (
     <>
-      <SearchBar input={nameSearch} inputQueue={setTypedMessage} />
+      <input
+      value={nameSearch}
+      onChange={(event) => {
+        setSearch(event.target.value);
+      }}
+      placeholder="Search name here.."
+     />
       <hr></hr>
-      <BabyNameButtons sortedData={filteredList} />
+      <div>{babyNameButtons}</div>
     </>
   );
 }
