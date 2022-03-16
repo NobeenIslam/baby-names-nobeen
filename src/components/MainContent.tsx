@@ -8,41 +8,37 @@ function MainContent(): JSX.Element {
   const [nameSearch, setSearch] = useState("");
   const [favouriteList, setFavourite] = useState<babyProps[]>([]);
 
-  const babyNamesData = [...Data]  
-  const alphabeticalNames: babyProps[] =
-    babyNamesData.sort(alphaBeticalSort);
+  const babyNamesData = [...Data];
+  const alphabeticalNames: babyProps[] = babyNamesData.sort(alphaBeticalSort);
 
-  const [filteredNames, setFilteredNames] = useState(filterNames(alphabeticalNames,nameSearch))
-
-  const babyNameButtons = filteredNames.map(
-    (baby,index) => (
-      <button
-        key={baby.id}
-        className={"button " + baby.sex}
-        onClick={() => {
-          const cut = filteredNames.splice(index,1)
-          setFavourite([...favouriteList, ...cut])
-          setFilteredNames(filteredNames)
-          console.log(index)
-        }
-      }
-      >
-        {baby.name}
-      </button>
-    )
+  const [filteredNames, setFilteredNames] = useState(
+    filterNames(alphabeticalNames, nameSearch)
   );
 
-  const favouriteNameButtons = favouriteList.map(
-    (baby,index) => (
-      <button
-        key={index}
-        className={"button " + baby.sex}
-        onClick={() => console.log("hello")}
-      >
-        {baby.name}
-      </button>
-    )
-  );
+  const babyNameButtons = filteredNames.map((baby, index) => (
+    <button
+      key={baby.id}
+      className={"button " + baby.sex}
+      onClick={() => {
+        const cut = filteredNames.splice(index, 1);
+        setFavourite([...favouriteList, ...cut]);
+        setFilteredNames(filteredNames);
+        console.log(index);
+      }}
+    >
+      {baby.name}
+    </button>
+  ));
+
+  const favouriteNameButtons = favouriteList.map((baby, index) => (
+    <button
+      key={index}
+      className={"button " + baby.sex}
+      onClick={() => console.log("hello")}
+    >
+      {baby.name}
+    </button>
+  ));
 
   return (
     <>
