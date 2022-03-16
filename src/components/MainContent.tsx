@@ -20,6 +20,7 @@ function MainContent(): JSX.Element {
   return (
     <>
       <SearchBar input={nameSearch} inputQueue={setTypedMessage} />
+      <hr></hr>
       <BabyNameButtons sortedData={filteredList} />
     </>
   );
