@@ -1,5 +1,5 @@
 import { useState } from "react";
-import babyNamesData from "../babyNamesData";
+import Data from "../babyNamesData";
 import alphaBeticalSort from "../utils/alphabeticalSort";
 import filterNames from "../utils/filterNames";
 import babyProps from "./babyProps";
@@ -8,20 +8,24 @@ function MainContent(): JSX.Element {
   const [nameSearch, setSearch] = useState("");
   const [favouriteList, setFavourite] = useState<babyProps[]>([]);
 
-  const alphabeticalBabyNames: babyProps[] =
+  const babyNamesData = [...Data]  
+  const alphabeticalNames: babyProps[] =
     babyNamesData.sort(alphaBeticalSort);
 
-  const filteredBabyNames: babyProps[] = filterNames(
-    alphabeticalBabyNames,
-    nameSearch
-  );
+  const [filteredNames, setFilteredNames] = useState(filterNames(alphabeticalNames,nameSearch))
 
-  const babyNameButtons = filteredBabyNames.map(
-    (baby) => (
+  const babyNameButtons = filteredNames.map(
+    (baby,index) => (
       <button
         key={baby.id}
         className={"button " + baby.sex}
-        onClick={() => setFavourite([...favouriteList, baby])}
+        onClick={() => {
+          const cut = filteredNames.splice(index,1)
+          setFavourite([...favouriteList, ...cut])
+          setFilteredNames(filteredNames)
+          console.log(index)
+        }
+      }
       >
         {baby.name}
       </button>
