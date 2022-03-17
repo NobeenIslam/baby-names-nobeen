@@ -1,9 +1,8 @@
 import { useState } from "react";
 import Data from "../babyNamesData";
 import alphaBeticalSort from "../utils/alphabeticalSort";
-import filterNames from "../utils/filterNames";
 import babyProps from "./babyProps";
-import FavouriteList from "./FavouriteList";
+
 
 function MainContent(): JSX.Element {
   const [nameSearch, setSearch] = useState("");
@@ -13,27 +12,32 @@ function MainContent(): JSX.Element {
   const babyNamesData = [...Data];
   const alphabeticalNames: babyProps[] = babyNamesData.sort(alphaBeticalSort);
 
-  //const filteredNames = filterNames(alphabeticalNames,nameSearch)
+  const filteredNames = alphabeticalNames.filter(doesSearchTermOccurInName)
+                                         .filter(doesMainOverlapWithFav)
 
-  const [filteredNames, setFilteredNames] = useState(
-    filterNames(alphabeticalNames, nameSearch)
-  );
-    
-  //console.log(nameSearch,filteredNames)
+  function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
+    return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
+  }
+
+  function doesMainOverlapWithFav(nameInfo: babyProps):boolean {
+    return !favouriteList.includes(nameInfo)
+  }
+  
   const babyNameButtons = filteredNames.map((baby, index) => (
     <button
       key={baby.id}
       className={"button " + baby.sex}
       onClick={() => {
-        const cut = filteredNames.splice(index, 1);
         //Splice element from list of current index
-        setFavourite([...favouriteList, ...cut]);
-        //setFilteredNames(filteredNames);
+        setFavourite([...favouriteList, ...filteredNames.splice(index, 1)]);
       }}
     >
       {baby.name}
     </button>
   ));
+
+  console.log("Favourite List Current Elements", favouriteList)
+  console.log("The main list length is now:",filteredNames.length)
 
   const favouriteNameButtons = favouriteList.map((baby, index) => (
     <button
@@ -42,9 +46,6 @@ function MainContent(): JSX.Element {
       onClick={() => {
         const cut = favouriteList.splice(index, 1);
         setFavourite(favouriteList);
-        //setFilteredNames(filteredNames)
-        console.log(favouriteList)
-        console.log(cut)
       }}
     >
       {baby.name}
