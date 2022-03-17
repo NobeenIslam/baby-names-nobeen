@@ -3,6 +3,7 @@ import Data from "../babyNamesData";
 import alphaBeticalSort from "../utils/alphabeticalSort";
 import filterNames from "../utils/filterNames";
 import babyProps from "./babyProps";
+import FavouriteList from "./FavouriteList";
 
 function MainContent(): JSX.Element {
   const [nameSearch, setSearch] = useState("");
@@ -12,11 +13,13 @@ function MainContent(): JSX.Element {
   const babyNamesData = [...Data];
   const alphabeticalNames: babyProps[] = babyNamesData.sort(alphaBeticalSort);
 
+  //const filteredNames = filterNames(alphabeticalNames,nameSearch)
+
   const [filteredNames, setFilteredNames] = useState(
     filterNames(alphabeticalNames, nameSearch)
   );
     
-  console.log(nameSearch,filteredNames)
+  //console.log(nameSearch,filteredNames)
   const babyNameButtons = filteredNames.map((baby, index) => (
     <button
       key={baby.id}
@@ -25,7 +28,7 @@ function MainContent(): JSX.Element {
         const cut = filteredNames.splice(index, 1);
         //Splice element from list of current index
         setFavourite([...favouriteList, ...cut]);
-        setFilteredNames(filteredNames);
+        //setFilteredNames(filteredNames);
       }}
     >
       {baby.name}
@@ -40,6 +43,8 @@ function MainContent(): JSX.Element {
         const cut = favouriteList.splice(index, 1);
         setFavourite(favouriteList);
         //setFilteredNames(filteredNames)
+        console.log(favouriteList)
+        console.log(cut)
       }}
     >
       {baby.name}
