@@ -27,7 +27,6 @@ function MainContent(): JSX.Element {
       key={baby.id}
       className={"button " + baby.sex}
       onClick={() => {
-        //Splice element from list of current index
         setFavourite([...favouriteList, baby]);
       }}
     >
