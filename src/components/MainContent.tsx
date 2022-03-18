@@ -22,13 +22,13 @@ function MainContent(): JSX.Element {
     return !favouriteList.includes(nameInfo);
   }
 
-  const babyNameButtons = filteredNames.map((baby, index) => (
+  const babyNameButtons = filteredNames.map((baby) => (
     <button
       key={baby.id}
       className={"button " + baby.sex}
       onClick={() => {
         //Splice element from list of current index
-        setFavourite([...favouriteList, ...filteredNames.splice(index, 1)]);
+        setFavourite([...favouriteList, baby]);
       }}
     >
       {baby.name}
