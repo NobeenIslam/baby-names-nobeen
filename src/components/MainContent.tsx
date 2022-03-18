@@ -1,26 +1,68 @@
 import { useState } from "react";
-import BabyNameButtons from "./BabyNameButtons";
-import SearchBar from "./SearchBar";
-import babyNamesData from "../babyNamesData";
+import Data from "../babyNamesData";
 import alphaBeticalSort from "../utils/alphabeticalSort";
-import filterNames from "../utils/filterNames";
 import babyProps from "./babyProps";
 
 function MainContent(): JSX.Element {
-  const alphabeticalBabyNames: babyProps[] =
-    babyNamesData.sort(alphaBeticalSort);
-    
-  const [nameSearch, setTypedMessage] = useState("");
+  const [nameSearch, setSearch] = useState("");
+  const [favouriteList, setFavourite] = useState<babyProps[]>([]);
 
-  const filteredList: babyProps[] = filterNames(
-    alphabeticalBabyNames,
-    nameSearch
-  );
+  const babyNamesData = [...Data];
+  const alphabeticalNames: babyProps[] = babyNamesData.sort(alphaBeticalSort);
+
+  const filteredNames = alphabeticalNames
+    .filter(doesSearchTermOccurInName)
+    .filter(doesMainOverlapWithFav);
+
+  function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
+    return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
+  }
+
+  function doesMainOverlapWithFav(nameInfo: babyProps): boolean {
+    return !favouriteList.includes(nameInfo);
+  }
+
+  const babyNameButtons = filteredNames.map((baby) => (
+    <button
+      key={baby.id}
+      className={"button " + baby.sex}
+      onClick={() => {
+        setFavourite([...favouriteList, baby]);
+      }}
+    >
+      {baby.name}
+    </button>
+  ));
+
+  console.log("Favourite List Current Elements", favouriteList);
+  console.log("The main list length is now:", filteredNames.length);
+
+  const favouriteNameButtons = favouriteList.map((baby, index) => (
+    <button
+      key={index}
+      className={"button " + baby.sex}
+      onClick={() => {
+        const newFavouriteList = [...favouriteList];
+        newFavouriteList.splice(index, 1);
+        setFavourite(newFavouriteList);
+      }}
+    >
+      {baby.name}
+    </button>
+  ));
 
   return (
     <>
-      <SearchBar input={nameSearch} inputQueue={setTypedMessage} />
-      <BabyNameButtons sortedData={filteredList} />
+      <input
+        value={nameSearch}
+        onChange={(event) => {
+          setSearch(event.target.value);
+        }}
+        placeholder="Search name here.."
+      />
+      <div>Your Favourite Names: {favouriteNameButtons}</div>
+      <hr></hr>
+      <div>{babyNameButtons}</div>
     </>
   );
 }
