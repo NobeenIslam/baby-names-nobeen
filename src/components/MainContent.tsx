@@ -4,15 +4,30 @@ import alphaBeticalSort from "../utils/alphabeticalSort";
 import babyProps from "./babyProps";
 
 function MainContent(): JSX.Element {
-  const [nameSearch, setSearch] = useState("");
-  const [favouriteList, setFavourite] = useState<babyProps[]>([]);
-
   const babyNamesData = [...Data];
   const alphabeticalNames: babyProps[] = babyNamesData.sort(alphaBeticalSort);
 
-  const filteredNames = alphabeticalNames
-    .filter(doesSearchTermOccurInName)
-    .filter(doesMainOverlapWithFav);
+  const [nameSearch, setSearch] = useState("");
+  const [favouriteList, setFavourite] = useState<babyProps[]>([]);
+  const [isAllSelected,setIsAll] = useState<boolean>(true)
+  const [isMaleSelected, setIsMale] = useState<boolean>(false);
+  const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
+
+  if (isMaleSelected) {
+    const filteredNames = alphabeticalNames
+      .filter(doesSearchTermOccurInName)
+      .filter(doesMainOverlapWithFav)
+      .filter(isNameMale);
+  } else if (isFemaleSelected) {
+    const filteredNames = alphabeticalNames
+      .filter(doesSearchTermOccurInName)
+      .filter(doesMainOverlapWithFav)
+      .filter(isNameFemale);
+  } else if (isAllSelected){
+    const filteredNames = alphabeticalNames
+      .filter(doesSearchTermOccurInName)
+      .filter(doesMainOverlapWithFav);
+  }
 
   function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
     return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
@@ -23,11 +38,11 @@ function MainContent(): JSX.Element {
   }
 
   function isNameMale(nameInfo: babyProps): boolean {
-    return nameInfo.sex.includes("m")
+    return nameInfo.sex.includes("m");
   }
 
   function isNameFemale(nameInfo: babyProps): boolean {
-    return nameInfo.sex.includes("f")
+    return nameInfo.sex.includes("f");
   }
 
   const babyNameButtons = filteredNames.map((baby) => (
@@ -42,8 +57,6 @@ function MainContent(): JSX.Element {
     </button>
   ));
 
-  console.log("Favourite List Current Elements", favouriteList);
-  console.log("The main list length is now:", filteredNames.length);
 
   const favouriteNameButtons = favouriteList.map((baby, index) => (
     <button
@@ -68,14 +81,22 @@ function MainContent(): JSX.Element {
         }}
         placeholder="Search name here.."
       />
-      <button>All</button>
-      <button>Male</button>
-      <button>Female</button>
       <button
-        onClick = {()=> setFavourite([])}
+        onClick = {()=> setIsAll(!isAllSelected)}
       >
-        Reset Favourite
+        All
       </button>
+      <button
+        onClick = {()=> setIsMale(!isMaleSelected)}
+      >
+        Male
+      </button>
+      <button
+        onClick = {()=> setIsFemale(!isFemaleSelected)}
+      >
+        Female
+      </button>
+      <button onClick={() => setFavourite([])}>Reset Favourite</button>
       <div>Your Favourite Names: {favouriteNameButtons}</div>
       <hr></hr>
       <div>{babyNameButtons}</div>
