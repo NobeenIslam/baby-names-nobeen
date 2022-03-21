@@ -13,21 +13,27 @@ function MainContent(): JSX.Element {
   const [isMaleSelected, setIsMale] = useState<boolean>(false);
   const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
 
+
+  let filteredNames = alphabeticalNames
+
   if (isMaleSelected) {
-    const filteredNames = alphabeticalNames
+    filteredNames = alphabeticalNames
       .filter(doesSearchTermOccurInName)
       .filter(doesMainOverlapWithFav)
       .filter(isNameMale);
   } else if (isFemaleSelected) {
-    const filteredNames = alphabeticalNames
+    filteredNames = alphabeticalNames
       .filter(doesSearchTermOccurInName)
       .filter(doesMainOverlapWithFav)
       .filter(isNameFemale);
   } else if (isAllSelected){
-    const filteredNames = alphabeticalNames
+    filteredNames = alphabeticalNames
       .filter(doesSearchTermOccurInName)
       .filter(doesMainOverlapWithFav);
   }
+
+  console.log(isAllSelected, filteredNames.length)
+
 
   function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
     return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
@@ -82,17 +88,17 @@ function MainContent(): JSX.Element {
         placeholder="Search name here.."
       />
       <button
-        onClick = {()=> setIsAll(!isAllSelected)}
+        onClick = {()=> {setIsAll(true); setIsFemale(false); setIsMale(false)}}
       >
         All
       </button>
       <button
-        onClick = {()=> setIsMale(!isMaleSelected)}
+        onClick = {()=> {setIsAll(false); setIsFemale(false); setIsMale(true)}}
       >
         Male
       </button>
       <button
-        onClick = {()=> setIsFemale(!isFemaleSelected)}
+        onClick = {()=> {setIsAll(false); setIsFemale(true); setIsMale(false)}}
       >
         Female
       </button>
