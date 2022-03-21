@@ -12,6 +12,7 @@ function MainContent(): JSX.Element {
   const [isAllSelected,setIsAll] = useState<boolean>(true)
   const [isMaleSelected, setIsMale] = useState<boolean>(false);
   const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
+  const [[allActive,maleActive,femaleActive],setActive] = useState<string[]>(["active","",""])
 
 
   let filteredNames = alphabeticalNames
@@ -31,9 +32,6 @@ function MainContent(): JSX.Element {
       .filter(doesSearchTermOccurInName)
       .filter(doesMainOverlapWithFav);
   }
-
-  console.log(isAllSelected, filteredNames.length)
-
 
   function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
     return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
@@ -88,6 +86,7 @@ function MainContent(): JSX.Element {
         placeholder="Search name here.."
       />
       <button
+        className  = {allActive}
         onClick = {()=> {setIsAll(true); setIsFemale(false); setIsMale(false)}}
       >
         All
