@@ -68,6 +68,14 @@ function MainContent(): JSX.Element {
         }}
         placeholder="Search name here.."
       />
+      <button>All</button>
+      <button>Male</button>
+      <button>Female</button>
+      <button
+        onClick = {()=> setFavourite([])}
+      >
+        Reset Favourite
+      </button>
       <div>Your Favourite Names: {favouriteNameButtons}</div>
       <hr></hr>
       <div>{babyNameButtons}</div>
