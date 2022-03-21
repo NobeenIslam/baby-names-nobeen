@@ -22,6 +22,14 @@ function MainContent(): JSX.Element {
     return !favouriteList.includes(nameInfo);
   }
 
+  function isNameMale(nameInfo: babyProps): boolean {
+    return nameInfo.sex.includes("m")
+  }
+
+  function isNameFemale(nameInfo: babyProps): boolean {
+    return nameInfo.sex.includes("f")
+  }
+
   const babyNameButtons = filteredNames.map((baby) => (
     <button
       key={baby.id}
