@@ -9,9 +9,7 @@ function MainContent(): JSX.Element {
 
   const [nameSearch, setSearch] = useState("");
   const [favouriteList, setFavourite] = useState<babyProps[]>([]);
-  const [isAllSelected, setIsAll] = useState<boolean>(true);
-  const [isMaleSelected, setIsMale] = useState<boolean>(false);
-  const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
+  const[[isAllSelected,isMaleSelected,isFemaleSelected],setWhichButtonSelected] = useState<boolean[]>([true,false,false])
   const [[isAllActive, isMaleActive, isFemaleActive], setActive] = useState<
     string[]
   >(["active", "", ""]);
@@ -88,9 +86,7 @@ function MainContent(): JSX.Element {
       <button
         className={isAllActive}
         onClick={() => {
-          setIsAll(true);
-          setIsFemale(false);
-          setIsMale(false);
+          setWhichButtonSelected([true,false,false])
           setActive(["active", "", ""]);
         }}
       >
@@ -99,9 +95,7 @@ function MainContent(): JSX.Element {
       <button
         className={isMaleActive}
         onClick={() => {
-          setIsAll(false);
-          setIsFemale(false);
-          setIsMale(true);
+          setWhichButtonSelected([false,true,false])
           setActive(["", "active", ""]);
         }}
       >
@@ -110,9 +104,7 @@ function MainContent(): JSX.Element {
       <button
         className={isFemaleActive}
         onClick={() => {
-          setIsAll(false);
-          setIsFemale(true);
-          setIsMale(false);
+          setWhichButtonSelected([false,false,true])
           setActive(["", "", "active"]);
         }}
       >
