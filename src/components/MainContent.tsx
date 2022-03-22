@@ -12,7 +12,7 @@ function MainContent(): JSX.Element {
   const [isAllSelected,setIsAll] = useState<boolean>(true)
   const [isMaleSelected, setIsMale] = useState<boolean>(false);
   const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
-  const [[allActive,maleActive,femaleActive],setActive] = useState<string[]>(["active","",""])
+  const [[isAllActive,isMaleActive,isFemaleActive],setActive] = useState<string[]>(["active","",""])
 
 
   let filteredNames = alphabeticalNames
@@ -86,18 +86,20 @@ function MainContent(): JSX.Element {
         placeholder="Search name here.."
       />
       <button
-        className  = {allActive}
-        onClick = {()=> {setIsAll(true); setIsFemale(false); setIsMale(false)}}
+        className  = {isAllActive}
+        onClick = {()=> {setIsAll(true); setIsFemale(false); setIsMale(false);setActive(["active","",""])}}
       >
         All
       </button>
       <button
-        onClick = {()=> {setIsAll(false); setIsFemale(false); setIsMale(true)}}
+        className = {isMaleActive}
+        onClick = {()=> {setIsAll(false); setIsFemale(false); setIsMale(true);setActive(["","active",""])}}
       >
         Male
       </button>
       <button
-        onClick = {()=> {setIsAll(false); setIsFemale(true); setIsMale(false)}}
+        className = {isFemaleActive}
+        onClick = {()=> {setIsAll(false); setIsFemale(true); setIsMale(false);setActive(["","","active"])}}
       >
         Female
       </button>
