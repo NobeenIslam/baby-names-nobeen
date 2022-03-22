@@ -6,5 +6,4 @@ function filterNamesBySearch(data: babyProps[], input: string): babyProps[] {
   );
 }
 
-
 export default filterNamesBySearch;

@@ -4,15 +4,35 @@ import alphaBeticalSort from "../utils/alphabeticalSort";
 import babyProps from "./babyProps";
 
 function MainContent(): JSX.Element {
-  const [nameSearch, setSearch] = useState("");
-  const [favouriteList, setFavourite] = useState<babyProps[]>([]);
-
   const babyNamesData = [...Data];
   const alphabeticalNames: babyProps[] = babyNamesData.sort(alphaBeticalSort);
 
-  const filteredNames = alphabeticalNames
-    .filter(doesSearchTermOccurInName)
-    .filter(doesMainOverlapWithFav);
+  const [nameSearch, setSearch] = useState("");
+  const [favouriteList, setFavourite] = useState<babyProps[]>([]);
+  const [isAllSelected, setIsAll] = useState<boolean>(true);
+  const [isMaleSelected, setIsMale] = useState<boolean>(false);
+  const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
+  const [[isAllActive, isMaleActive, isFemaleActive], setActive] = useState<
+    string[]
+  >(["active", "", ""]);
+
+  let filteredNames = alphabeticalNames;
+
+  if (isMaleSelected) {
+    filteredNames = alphabeticalNames
+      .filter(doesSearchTermOccurInName)
+      .filter(doesMainOverlapWithFav)
+      .filter(isNameMale);
+  } else if (isFemaleSelected) {
+    filteredNames = alphabeticalNames
+      .filter(doesSearchTermOccurInName)
+      .filter(doesMainOverlapWithFav)
+      .filter(isNameFemale);
+  } else if (isAllSelected) {
+    filteredNames = alphabeticalNames
+      .filter(doesSearchTermOccurInName)
+      .filter(doesMainOverlapWithFav);
+  }
 
   function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
     return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
@@ -20,6 +40,14 @@ function MainContent(): JSX.Element {
 
   function doesMainOverlapWithFav(nameInfo: babyProps): boolean {
     return !favouriteList.includes(nameInfo);
+  }
+
+  function isNameMale(nameInfo: babyProps): boolean {
+    return nameInfo.sex.includes("m");
+  }
+
+  function isNameFemale(nameInfo: babyProps): boolean {
+    return nameInfo.sex.includes("f");
   }
 
   const babyNameButtons = filteredNames.map((baby) => (
@@ -33,9 +61,6 @@ function MainContent(): JSX.Element {
       {baby.name}
     </button>
   ));
-
-  console.log("Favourite List Current Elements", favouriteList);
-  console.log("The main list length is now:", filteredNames.length);
 
   const favouriteNameButtons = favouriteList.map((baby, index) => (
     <button
@@ -60,6 +85,40 @@ function MainContent(): JSX.Element {
         }}
         placeholder="Search name here.."
       />
+      <button
+        className={isAllActive}
+        onClick={() => {
+          setIsAll(true);
+          setIsFemale(false);
+          setIsMale(false);
+          setActive(["active", "", ""]);
+        }}
+      >
+        All
+      </button>
+      <button
+        className={isMaleActive}
+        onClick={() => {
+          setIsAll(false);
+          setIsFemale(false);
+          setIsMale(true);
+          setActive(["", "active", ""]);
+        }}
+      >
+        Male
+      </button>
+      <button
+        className={isFemaleActive}
+        onClick={() => {
+          setIsAll(false);
+          setIsFemale(true);
+          setIsMale(false);
+          setActive(["", "", "active"]);
+        }}
+      >
+        Female
+      </button>
+      <button onClick={() => setFavourite([])}>Reset Favourite</button>
       <div>Your Favourite Names: {favouriteNameButtons}</div>
       <hr></hr>
       <div>{babyNameButtons}</div>
