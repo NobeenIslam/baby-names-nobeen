@@ -18,7 +18,7 @@ function MainContent(): JSX.Element {
 
   let filteredNames = alphabeticalNames
     .filter(doesSearchTermOccurInName)
-    .filter(doesMainOverlapWithFav);
+    .filter(isNameNotInFav);
 
   if (isMaleSelected) {
     filteredNames = filteredNames.filter(isNameMale);
@@ -30,7 +30,7 @@ function MainContent(): JSX.Element {
     return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
   }
 
-  function doesMainOverlapWithFav(nameInfo: babyProps): boolean {
+  function isNameNotInFav(nameInfo: babyProps): boolean {
     return !favouriteList.includes(nameInfo);
   }
 
