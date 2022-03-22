@@ -9,36 +9,28 @@ function MainContent(): JSX.Element {
 
   const [nameSearch, setSearch] = useState("");
   const [favouriteList, setFavourite] = useState<babyProps[]>([]);
-  const [isAllSelected, setIsAll] = useState<boolean>(true);
-  const [isMaleSelected, setIsMale] = useState<boolean>(false);
-  const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
+  const [[isMaleSelected, isFemaleSelected], setWhichButtonSelected] = useState<
+    boolean[]
+  >([false, false]);
   const [[isAllActive, isMaleActive, isFemaleActive], setActive] = useState<
     string[]
   >(["active", "", ""]);
 
-  let filteredNames = alphabeticalNames;
+  let filteredNames = alphabeticalNames
+    .filter(doesSearchTermOccurInName)
+    .filter(isNameNotInFav);
 
   if (isMaleSelected) {
-    filteredNames = alphabeticalNames
-      .filter(doesSearchTermOccurInName)
-      .filter(doesMainOverlapWithFav)
-      .filter(isNameMale);
+    filteredNames = filteredNames.filter(isNameMale);
   } else if (isFemaleSelected) {
-    filteredNames = alphabeticalNames
-      .filter(doesSearchTermOccurInName)
-      .filter(doesMainOverlapWithFav)
-      .filter(isNameFemale);
-  } else if (isAllSelected) {
-    filteredNames = alphabeticalNames
-      .filter(doesSearchTermOccurInName)
-      .filter(doesMainOverlapWithFav);
+    filteredNames = filteredNames.filter(isNameFemale);
   }
 
   function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
     return nameInfo.name.toLowerCase().includes(nameSearch.toLowerCase());
   }
 
-  function doesMainOverlapWithFav(nameInfo: babyProps): boolean {
+  function isNameNotInFav(nameInfo: babyProps): boolean {
     return !favouriteList.includes(nameInfo);
   }
 
@@ -88,9 +80,7 @@ function MainContent(): JSX.Element {
       <button
         className={isAllActive}
         onClick={() => {
-          setIsAll(true);
-          setIsFemale(false);
-          setIsMale(false);
+          setWhichButtonSelected([false, false]);
           setActive(["active", "", ""]);
         }}
       >
@@ -99,9 +89,7 @@ function MainContent(): JSX.Element {
       <button
         className={isMaleActive}
         onClick={() => {
-          setIsAll(false);
-          setIsFemale(false);
-          setIsMale(true);
+          setWhichButtonSelected([true, false]);
           setActive(["", "active", ""]);
         }}
       >
@@ -110,9 +98,7 @@ function MainContent(): JSX.Element {
       <button
         className={isFemaleActive}
         onClick={() => {
-          setIsAll(false);
-          setIsFemale(true);
-          setIsMale(false);
+          setWhichButtonSelected([false, true]);
           setActive(["", "", "active"]);
         }}
       >
