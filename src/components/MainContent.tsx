@@ -9,13 +9,14 @@ function MainContent(): JSX.Element {
 
   const [nameSearch, setSearch] = useState("");
   const [favouriteList, setFavourite] = useState<babyProps[]>([]);
-  const [isAllSelected,setIsAll] = useState<boolean>(true)
+  const [isAllSelected, setIsAll] = useState<boolean>(true);
   const [isMaleSelected, setIsMale] = useState<boolean>(false);
   const [isFemaleSelected, setIsFemale] = useState<boolean>(false);
-  const [[isAllActive,isMaleActive,isFemaleActive],setActive] = useState<string[]>(["active","",""])
+  const [[isAllActive, isMaleActive, isFemaleActive], setActive] = useState<
+    string[]
+  >(["active", "", ""]);
 
-
-  let filteredNames = alphabeticalNames
+  let filteredNames = alphabeticalNames;
 
   if (isMaleSelected) {
     filteredNames = alphabeticalNames
@@ -27,7 +28,7 @@ function MainContent(): JSX.Element {
       .filter(doesSearchTermOccurInName)
       .filter(doesMainOverlapWithFav)
       .filter(isNameFemale);
-  } else if (isAllSelected){
+  } else if (isAllSelected) {
     filteredNames = alphabeticalNames
       .filter(doesSearchTermOccurInName)
       .filter(doesMainOverlapWithFav);
@@ -61,7 +62,6 @@ function MainContent(): JSX.Element {
     </button>
   ));
 
-
   const favouriteNameButtons = favouriteList.map((baby, index) => (
     <button
       key={index}
@@ -86,20 +86,35 @@ function MainContent(): JSX.Element {
         placeholder="Search name here.."
       />
       <button
-        className  = {isAllActive}
-        onClick = {()=> {setIsAll(true); setIsFemale(false); setIsMale(false);setActive(["active","",""])}}
+        className={isAllActive}
+        onClick={() => {
+          setIsAll(true);
+          setIsFemale(false);
+          setIsMale(false);
+          setActive(["active", "", ""]);
+        }}
       >
         All
       </button>
       <button
-        className = {isMaleActive}
-        onClick = {()=> {setIsAll(false); setIsFemale(false); setIsMale(true);setActive(["","active",""])}}
+        className={isMaleActive}
+        onClick={() => {
+          setIsAll(false);
+          setIsFemale(false);
+          setIsMale(true);
+          setActive(["", "active", ""]);
+        }}
       >
         Male
       </button>
       <button
-        className = {isFemaleActive}
-        onClick = {()=> {setIsAll(false); setIsFemale(true); setIsMale(false);setActive(["","","active"])}}
+        className={isFemaleActive}
+        onClick={() => {
+          setIsAll(false);
+          setIsFemale(true);
+          setIsMale(false);
+          setActive(["", "", "active"]);
+        }}
       >
         Female
       </button>
