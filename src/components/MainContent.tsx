@@ -9,12 +9,12 @@ function MainContent(): JSX.Element {
 
   const [nameSearch, setSearch] = useState("");
   const [favouriteList, setFavourite] = useState<babyProps[]>([]);
-  const [[isMaleSelected, isFemaleSelected], setWhichButtonSelected] = useState<
+  const [[isMaleSelected, isFemaleSelected,isSalihSelected], setWhichButtonSelected] = useState<
     boolean[]
-  >([false, false]);
-  const [[isAllActive, isMaleActive, isFemaleActive], setActive] = useState<
+  >([false, false,false]);
+  const [[isAllActive, isMaleActive, isFemaleActive,isSalihActive], setActive] = useState<
     string[]
-  >(["active", "", ""]);
+  >(["active", "", "","",""]);
 
   let filteredNames = alphabeticalNames
     .filter(doesSearchTermOccurInName)
@@ -24,6 +24,11 @@ function MainContent(): JSX.Element {
     filteredNames = filteredNames.filter(isNameMale);
   } else if (isFemaleSelected) {
     filteredNames = filteredNames.filter(isNameFemale);
+  } else if (isSalihSelected){
+    filteredNames = filteredNames.map((baby)=>{
+      const salihBaby:babyProps = {id:baby.id, name:"Salih",sex:baby.sex}
+    return salihBaby}
+      )
   }
 
   function doesSearchTermOccurInName(nameInfo: babyProps): boolean {
@@ -56,7 +61,7 @@ function MainContent(): JSX.Element {
 
   const favouriteNameButtons = favouriteList.map((baby, index) => (
     <button
-      key={index}
+      key={baby.id}
       className={"button " + baby.sex}
       onClick={() => {
         const newFavouriteList = [...favouriteList];
@@ -67,6 +72,7 @@ function MainContent(): JSX.Element {
       {baby.name}
     </button>
   ));
+
 
   return (
     <>
@@ -80,8 +86,8 @@ function MainContent(): JSX.Element {
       <button
         className={isAllActive}
         onClick={() => {
-          setWhichButtonSelected([false, false]);
-          setActive(["active", "", ""]);
+          setWhichButtonSelected([false, false,false]);
+          setActive(["active", "", "",""]);
         }}
       >
         All
@@ -89,8 +95,8 @@ function MainContent(): JSX.Element {
       <button
         className={isMaleActive}
         onClick={() => {
-          setWhichButtonSelected([true, false]);
-          setActive(["", "active", ""]);
+          setWhichButtonSelected([true, false,false]);
+          setActive(["", "active", "",""]);
         }}
       >
         Male
@@ -98,13 +104,23 @@ function MainContent(): JSX.Element {
       <button
         className={isFemaleActive}
         onClick={() => {
-          setWhichButtonSelected([false, true]);
-          setActive(["", "", "active"]);
+          setWhichButtonSelected([false, true,false]);
+          setActive(["", "", "active",""]);
         }}
       >
         Female
       </button>
+      <button
+        className={isSalihActive}
+        onClick={() => {
+          setWhichButtonSelected([false, false,true]);
+          setActive(["", "", "","active"]);
+        }}
+      >
+        Salih
+      </button>
       <button onClick={() => setFavourite([])}>Reset Favourite</button>
+      <button onClick={() => setSearch("")}>Clear Search</button>
       <div>Your Favourite Names: {favouriteNameButtons}</div>
       <hr></hr>
       <div>{babyNameButtons}</div>
