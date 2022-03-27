@@ -2,6 +2,8 @@ import { useState } from "react";
 import Data from "../babyNamesData";
 import alphaBeticalSort from "../utils/alphabeticalSort";
 import babyProps from "./babyProps";
+import SearchControls from "./SearchControls";
+import GenderControls from "./GenderControls";
 
 function MainContent(): JSX.Element {
   const babyNamesData = [...Data];
@@ -15,7 +17,7 @@ function MainContent(): JSX.Element {
   ] = useState<boolean[]>([false, false, false]);
   const [
     [isAllActive, isMaleActive, isFemaleActive, isSalihActive],
-    setActive,
+    setActiveCss,
   ] = useState<string[]>(["active", "", "", "", ""]);
 
   let filteredNames = alphabeticalNames
@@ -81,56 +83,23 @@ function MainContent(): JSX.Element {
 
   return (
     <>
-      <input
-        value={nameSearch}
-        onChange={(event) => {
-          setSearch(event.target.value);
-        }}
-        placeholder="Search name here.."
+      <SearchControls search={nameSearch} setSearch={setSearch} />
+      <GenderControls
+          isAllActive= {isAllActive}
+          isMaleActive= {isMaleActive}
+          isFemaleActive={isFemaleActive}
+          isSalihActive={isSalihActive}
+          setButtonSelect={setWhichButtonSelected}
+          setActiveCss={setActiveCss}
       />
-      <button
-        className={isAllActive}
-        onClick={() => {
-          setWhichButtonSelected([false, false, false]);
-          setActive(["active", "", "", ""]);
-        }}
-      >
-        All
-      </button>
-      <button
-        className={isMaleActive}
-        onClick={() => {
-          setWhichButtonSelected([true, false, false]);
-          setActive(["", "active", "", ""]);
-        }}
-      >
-        Male
-      </button>
-      <button
-        className={isFemaleActive}
-        onClick={() => {
-          setWhichButtonSelected([false, true, false]);
-          setActive(["", "", "active", ""]);
-        }}
-      >
-        Female
-      </button>
-      <button
-        className={isSalihActive}
-        onClick={() => {
-          setWhichButtonSelected([false, false, true]);
-          setActive(["", "", "", "active"]);
-        }}
-      >
-        Salih
-      </button>
       <button onClick={() => setFavourite([])}>Reset Favourite</button>
-      <button onClick={() => setSearch("")}>Clear Search</button>
       <div>Your Favourite Names: {favouriteNameButtons}</div>
       <hr></hr>
       <div>{babyNameButtons}</div>
     </>
   );
 }
+
+
 
 export default MainContent;
