@@ -57,19 +57,16 @@ function MainContent(): JSX.Element {
     return nameInfo.sex.includes("f");
   }
 
-
-
-
   return (
     <>
       <SearchControls search={nameSearch} setSearch={setSearch} />
       <GenderControls
-          isAllActive= {isAllActive}
-          isMaleActive= {isMaleActive}
-          isFemaleActive={isFemaleActive}
-          isSalihActive={isSalihActive}
-          setButtonSelect={setWhichButtonSelected}
-          setActiveCss={setActiveCss}
+        isAllActive={isAllActive}
+        isMaleActive={isMaleActive}
+        isFemaleActive={isFemaleActive}
+        isSalihActive={isSalihActive}
+        setButtonSelect={setWhichButtonSelected}
+        setActiveCss={setActiveCss}
       />
       <button onClick={() => setFavourite([])}>Reset Favourite</button>
       <FavouriteList
@@ -79,13 +76,11 @@ function MainContent(): JSX.Element {
       <hr></hr>
       <BabyNameButtons
         filteredNames={filteredNames}
-        favouriteList ={favouriteList}
+        favouriteList={favouriteList}
         setFavourite={setFavourite}
       />
     </>
   );
 }
-
-
 
 export default MainContent;

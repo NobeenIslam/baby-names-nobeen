@@ -1,12 +1,11 @@
 import babyProps from "./babyProps";
 
 interface favouriteListProps {
-  favouriteList: babyProps[],
-  setFavourite: (arg0:babyProps[])=> void
+  favouriteList: babyProps[];
+  setFavourite: (arg0: babyProps[]) => void;
 }
 
 function FavouriteList(props: favouriteListProps): JSX.Element {
-  
   const favouriteNameButtons = props.favouriteList.map((baby, index) => (
     <button
       key={baby.id}

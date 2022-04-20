@@ -1,9 +1,9 @@
 import babyProps from "./babyProps";
 
 interface babyNameButtonsProps {
-  filteredNames: babyProps[],
-  favouriteList: babyProps[],
-  setFavourite: (arg0: babyProps[])=>void
+  filteredNames: babyProps[];
+  favouriteList: babyProps[];
+  setFavourite: (arg0: babyProps[]) => void;
 }
 
 function BabyNameButtons(props: babyNameButtonsProps): JSX.Element {
