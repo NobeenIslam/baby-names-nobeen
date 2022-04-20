@@ -5,6 +5,7 @@ import babyProps from "./babyProps";
 import SearchControls from "./SearchControls";
 import GenderControls from "./GenderControls";
 import BabyNameButtons from "./BabyNameButtons";
+import FavouriteList from "./FavouriteList";
 
 function MainContent(): JSX.Element {
   const babyNamesData = [...Data];
@@ -57,19 +58,7 @@ function MainContent(): JSX.Element {
   }
 
 
-  const favouriteNameButtons = favouriteList.map((baby, index) => (
-    <button
-      key={baby.id}
-      className={"button " + baby.sex}
-      onClick={() => {
-        const newFavouriteList = [...favouriteList];
-        newFavouriteList.splice(index, 1);
-        setFavourite(newFavouriteList);
-      }}
-    >
-      {baby.name}
-    </button>
-  ));
+
 
   return (
     <>
@@ -83,7 +72,10 @@ function MainContent(): JSX.Element {
           setActiveCss={setActiveCss}
       />
       <button onClick={() => setFavourite([])}>Reset Favourite</button>
-      <div>Your Favourite Names: {favouriteNameButtons}</div>
+      <FavouriteList
+        favouriteList={favouriteList}
+        setFavourite={setFavourite}
+      />
       <hr></hr>
       <BabyNameButtons
         filteredNames={filteredNames}
