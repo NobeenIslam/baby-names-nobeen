@@ -1,17 +1,25 @@
-import ButtonElement from "./ButtonElement";
 import babyProps from "./babyProps";
 
 interface babyNameButtonsProps {
-  sortedData: babyProps[];
+  filteredNames: babyProps[];
+  favouriteList: babyProps[];
+  setFavourite: (arg0: babyProps[]) => void;
 }
 
 function BabyNameButtons(props: babyNameButtonsProps): JSX.Element {
-  const babyNameButtons = props.sortedData.map(
-    (baby: babyProps): JSX.Element => (
-      <ButtonElement key={baby.id} name={baby.name} sex={baby.sex} />
-    )
-  );
-  return <section>{babyNameButtons}</section>;
+  const babyNameButtons = props.filteredNames.map((baby) => (
+    <button
+      key={baby.id}
+      className={"button " + baby.sex}
+      onClick={() => {
+        props.setFavourite([...props.favouriteList, baby]);
+      }}
+    >
+      {baby.name}
+    </button>
+  ));
+
+  return <div>{babyNameButtons}</div>;
 }
 
 export default BabyNameButtons;
